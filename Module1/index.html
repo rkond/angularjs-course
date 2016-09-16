@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="angular.min.js"></script>
+    <script src="app.js"></script>
+    <title>AngularJS Module 1</title>
+    <style>
+      .result {color: green;}
+      .error {color: red;}
+    </style>
+</head>
+  <body ng-app="LunchCheck">
+    <h1>Lunch control</h1>
+    <div ng-controller="LunchCheckController">
+      <div>
+        What would you have for lunch?
+        <input type="text" ng-model="lunchItems">
+        <button ng-click="checkIfTooMuch();">Check If Too Much</button>
+      </div>
+      <div ng-switch="result">
+        <p class="result" ng-switch-when="ok">Enjoy!</p>
+        <p class="result" ng-switch-when="toomuch">Too much!</p>
+        <p class="error" ng-switch-when="empty">Please enter data first!</p>
+      </div>
+    </div>
+    <script></script>
+  </body>
+</html>
