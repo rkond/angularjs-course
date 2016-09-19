@@ -4,42 +4,42 @@
 angular.module('ShoppingListApp', [])
 .controller('ShoppingListToBuyController', ShoppingListToBuyController)
 .controller('ShoppingListBoughtController', ShoppingListBoughtController)
-.service('ToBuyList',ShoppingList)
-.service('BoughtList',ShoppingList);
+.service('ShoppingList',ShoppingList);
 
-ShoppingListToBuyController.$inject = ['ToBuyList','BoughtList'];
-function ShoppingListToBuyController(ToBuyList, BoughtList) {
+ShoppingListToBuyController.$inject = ['ShoppingList'];
+function ShoppingListToBuyController(ShoppingList) {
   var toBuy = this;
-  this.items = ToBuyList.getItems();
-  ToBuyList.addItem("Beans",10);
-  ToBuyList.addItem("Chicken",1);
-  ToBuyList.addItem("Bread",2);
-  ToBuyList.addItem("Soap",2);
-  ToBuyList.addItem("Salt",1);
+  this.items = ShoppingList.getToBuyItems();
+  ShoppingList.addItem("Beans",10);
+  ShoppingList.addItem("Chicken",1);
+  ShoppingList.addItem("Bread",2);
+  ShoppingList.addItem("Soap",2);
+  ShoppingList.addItem("Salt",1);
 
   this.buyItem = function (idx) {
-    var item = ToBuyList.removeItem(idx);
-    BoughtList.addItem(item.name,item.quantity);
+    ShoppingList.buyItem(idx);
   }
 }
-ShoppingListBoughtController.$inject = ['ToBuyList','BoughtList'];
-function ShoppingListBoughtController(ToBuyList, BoughtList) {
+ShoppingListBoughtController.$inject = ['ShoppingList'];
+function ShoppingListBoughtController(ShoppingList) {
   var bought = this;
-  this.items = BoughtList.getItems();
+  this.items = ShoppingList.getBoughtItems();
 }
 
 function ShoppingList() {
   var list = this;
 
-  var items = [];
+  var toBuyItems = [];
+  var boughtItems = [];
 
-  list.getItems = function () { return items;}
+  list.getToBuyItems = function () { return toBuyItems;}
+  list.getBoughtItems = function () { return boughtItems;}
 
   list.addItem = function (name,quantity) {
-    items.push({name:name,quantity:quantity});
+    toBuyItems.push({name:name,quantity:quantity});
   }
-  list.removeItem = function(idx) {
-    return items.splice(idx,1)[0];
+  list.buyItem = function(idx) {
+    boughtItems.push(toBuyItems.splice(idx,1)[0]);
   }
 }
 
