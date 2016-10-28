@@ -40,6 +40,28 @@ function routeConfig ($stateProvider) {
           return MenuService.getMenuItems($stateParams.category);
         }]
       }
-    });
+    })
+    .state('public.signup', {
+      url: '/signup',
+      templateUrl: 'src/public/signup/signup.html',
+      controller: 'SignupController',
+      controllerAs: 'signupCtrl',
+    })
+    .state('public.info', {
+      url: '/info',
+      templateUrl: 'src/public/info/info.html',
+      controller: 'InfoController',
+      controllerAs: 'infoCtrl',
+      resolve: {
+        favoriteItem: ['MenuService','UserService', function (MenuService,UserService) {
+          var itemName = false;
+          var user = UserService.getUser();
+          if (user === false)
+            return {};
+          return MenuService.getMenuItem(user.fav);
+        }]
+      }
+    })
+        ;
 }
 })();
